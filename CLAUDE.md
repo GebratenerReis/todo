@@ -21,3 +21,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 対象ディレクトリが Git 未初期化の場合は、変更前に `git init` とリモートリポジトリの設定要否をユーザーに確認する。
 - コミット前に `git status` / `git diff` で差分を確認し、意図しないファイル（`.env` や `node_modules` など）が含まれていないことを確認する。
 - push 前にリモート追跡ブランチの状態を確認し、force push など破壊的操作は行わない。
+
+## デプロイ先
+
+https://github.com/GebratenerReis/todo.git
+
+- 公開URL（GitHub Pages）: https://gebratenerreis.github.io/todo/
+- `main` ブランチへ push すると GitHub Actions（`.github/workflows/deploy.yml`）が自動でビルドし、GitHub Pages にデプロイする。
+- Vite の `base` は `/todo/`（`vite.config.js`）に設定済み。リポジトリ名を変更する場合はここも合わせて変更が必要。
+
+## 技術スタック
+
+- React 19 + Vite（ビルドツール、開発サーバー）
+- プレーンCSS（CSS Modulesやコンポーネントライブラリなし。`App.css` / `index.css` に直接記述）
+- 状態管理は `useState` / `useEffect` のみ（外部の状態管理ライブラリなし）
+- データ永続化は `localStorage`（バックエンド・DBなし）
+- Lint: oxlint（`npm run lint`）
+- CI/CD: GitHub Actions → GitHub Pages
+
+## コンポーネントの命名規約
+
+- コンポーネントは PascalCase とし、ファイル名をコンポーネント名と一致させる（例: `App.jsx` → `function App()`）。
+- 対応するスタイルは同名の `.css` ファイルに分離する（例: `App.jsx` ⇔ `App.css`）。
+- イベントハンドラ・状態更新関数は camelCase の「動詞+名詞」形にする（例: `addTask`, `toggleTask`, `deleteTask`）。
+- CSSクラス名は kebab-case にする（例: `task-form`, `task-list`, `task.done`）。
